@@ -45,5 +45,5 @@ jobs:
 
     - name: docker scan
       run: |
-        docker scan --token ${{ secrets.SNYK_TOKEN }}
-        docker scan --token ${{ secrets.SNYK_TOKEN }} --file Dockerfile --exclude-base finewine --accept-license 
+        docker scan --login --token '${{ secrets.SNYK_TOKEN }}' --accept-license 
+        docker scan --file Dockerfile --exclude-base finewine --accept-license 
