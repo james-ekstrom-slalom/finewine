@@ -18,6 +18,7 @@ jobs:
     - uses: actions/checkout@v2
     
     - name: update docker
+      if: contains(github.event.pull_request.labels.*.name, 'major')
       run: |
         sudo apt-get update
         sudo apt-get remove docker docker-engine docker.io containerd runc
@@ -44,6 +45,7 @@ jobs:
       run: echo ${{ env.ENV }}
 
     - name: docker scan
+      if: contains(github.event.pull_request.labels.*.name, 'major')
       run: |
         docker scan --login --token '${{ secrets.SNYK_TOKEN }}' --accept-license 
         docker scan --file Dockerfile --exclude-base finewine --accept-license 
