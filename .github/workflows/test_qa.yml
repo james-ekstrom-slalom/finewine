@@ -16,6 +16,15 @@ jobs:
       
     steps:
     - uses: actions/checkout@v2
+    
+    - name: update apt repo
+      run: apt-get update
+
+    - name: remove old version of docker engine
+      run: apt-get purge lxc-docker*
+
+    - name: install new docker engine
+      run: apt-get install docker-engine
 
     - name: docker build
       run: docker build -t finewine .
@@ -25,6 +34,7 @@ jobs:
 
     - name: show env
       run: echo ${{ env.ENV }}
+
 
     - name: docker scan
       run: docker scan --file Dockerfile --exclude-base finewine --accept-license
