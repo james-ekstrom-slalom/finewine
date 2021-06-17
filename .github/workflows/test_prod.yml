@@ -6,7 +6,7 @@ on:
       - "main"
 
 jobs:
-  build_prod:
+  test_prod:
     runs-on: ubuntu-20.04
     environment:
       name: PROD
@@ -44,4 +44,4 @@ jobs:
       run: echo ${{ env.ENV }}
 
     - name: docker scan
-      run: docker scan --file Dockerfile --exclude-base finewine --accept-license
+      run: docker scan --file Dockerfile --exclude-base finewine --accept-license --token ${{ env.SNYK_TOKEN }}
