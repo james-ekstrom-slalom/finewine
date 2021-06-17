@@ -1,0 +1,28 @@
+# Workflow to deploy and cleanup on merge
+on: 
+  pull_request:
+    types: [closed]
+    branches:
+      - "main"
+
+jobs:
+  deploy_prod:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-20.04
+    environment:
+      name: PROD
+
+    env:
+      ENV: "PROD"
+    
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: set env
+      run: echo "ENV=$(echo $a | sed 's/-/_/g' <<< ${{ secrets.ENV }}_${GITHUB_HEAD_REF##*/})" >> $GITHUB_ENV
+
+    - name: deploy
+      run: echo "deploying to ${{ env.ENV }}"
+
+    - name: cleanup
+      run: echo "doing cleanup on ${{ env.ENV }}"

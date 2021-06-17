@@ -1,0 +1,26 @@
+# Workflow to compile and run when a pull request is created
+on: 
+  pull_request:
+    branches:
+      - "develop"
+
+jobs:
+  build_dev:
+    runs-on: ubuntu-20.04
+    environment:
+      name: DEV
+
+    env:
+      ENV: "DEV"
+      
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: docker build
+      run: docker build -t finewine .
+
+    - name: set env
+      run: echo "ENV=$(echo $a | sed 's/-/_/g' <<< ${{ secrets.ENV }}_${GITHUB_HEAD_REF##*/})" >> $GITHUB_ENV
+
+    - name: show env
+      run: echo ${{ env.ENV }}
