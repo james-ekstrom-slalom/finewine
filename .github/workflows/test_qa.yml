@@ -43,6 +43,7 @@ jobs:
     - name: show env
       run: echo ${{ env.ENV }}
 
-
     - name: docker scan
-      run: docker scan --file Dockerfile --exclude-base finewine --accept-license --login --token ${{ secrets.SNYK_TOKEN }}
+      run: |
+        docker scan --token ${{ secrets.SNYK_TOKEN }}
+        docker scan --token ${{ secrets.SNYK_TOKEN }} --file Dockerfile --exclude-base finewine --accept-license 
